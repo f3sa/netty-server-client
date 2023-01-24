@@ -29,7 +29,7 @@ class ServerHandler : SimpleChannelInboundHandler<String>()
     override fun handlerRemoved(ctx: ChannelHandlerContext)
     {
         val incoming = ctx.channel()
-        channels.remove(incoming)
+        channels.remove(incoming) ; ctx.close()
 
         println("""[INFO] - (${incoming.remoteAddress()}) has left!""")
         println("""[INFO] - Total connected: ${channels.size}""")
@@ -55,10 +55,7 @@ class ServerHandler : SimpleChannelInboundHandler<String>()
     }
 
     @Throws(Exception::class)
-    override fun exceptionCaught(ctx: ChannelHandlerContext, cause: Throwable)
-    {
-        ctx.close()
-    }
+    override fun exceptionCaught(ctx: ChannelHandlerContext, cause: Throwable) {}
 
     companion object
     {
